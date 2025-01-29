@@ -3,7 +3,11 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Models\Traits\HasActiveColumn;
+use App\Models\Traits\HasEmailable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Silber\Bouncer\Database\HasRolesAndAbilities;
@@ -11,7 +15,7 @@ use Silber\Bouncer\Database\HasRolesAndAbilities;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, HasRolesAndAbilities;
+    use HasFactory, Notifiable, HasRolesAndAbilities, HasActiveColumn, HasEmailable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -34,6 +38,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'deleted_at'
     ];
 
     /**
@@ -47,5 +52,11 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }    
+
+    // Scopes
+    public function scopeFindUser($query, string $email)
+    {
+        return $query->where("email", $email)->active();
     }
 }

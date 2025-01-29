@@ -18,6 +18,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('title')->nullable();
+            $table->text("description")->nullable();
             $table->bigInteger('entity_id')->unsigned()->nullable();
             $table->string('entity_type')->nullable();
             $table->boolean('only_owned')->default(false);

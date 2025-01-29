@@ -18,8 +18,8 @@ class UserSeeder extends Seeder
             [
                 "email" => "admin@poslink.com.mx",
                 "name" => "admin",
-                "surname" => "root",
-                "second_surname" => "root",
+                "surname" => "admin",
+                "second_surname" => "admin",
                 "password" => Hash::make("laravel_123"),
                 "role" => "admin"
             ]
